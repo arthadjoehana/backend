@@ -26,16 +26,49 @@ const express = require('express');
 const port = 8000;
 const app = express();
 
+//ex1
+
 app.get('/', (req, res) => {
   res.send('Authors API');
 });
 
-app.get('/authors/1/', (req, res) => {
-  res.send(`${authors[0].name}, ${authors[0].nationality}`);
+//ex2
+
+app.get('/authors/:id', (req, res) => {
+  let num = req.params.id;
+  let i = num - 1
+  res.send(`${authors[i].name}, ${authors[i].nationality}`)
+
 });
 
+//ex3
 
+app.get('/authors/:id/books', (req, res) => {
+  let num = req.params.id;
+  let i = num - 1
+  res.send(`${authors[i].books}`)
 
+});
+
+//ex4
+
+app.get('/json/authors/:id', (req, res) => {
+  let num = req.params.id;
+  let name = authors[num].name
+  let nationality = authors[num].nationality
+  res.json({
+    name: name,
+    nationality: nationality
+  });
+});
+
+app.get('/json/authors/:id/books', (req, res) => {
+  let num = req.params.id;
+  let books = authors[num].books
+  res.json({
+    books: books
+  });
+});
 
 app.listen(port, () => {
   console.log('Server started on port: ' + port);
