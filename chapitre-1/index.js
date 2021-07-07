@@ -1,27 +1,4 @@
-
-var authors = [
-  {
-      name: "Lawrence Nowell",
-      nationality: "UK",
-      books: ["Beowulf"]
-  },
-  {
-      name: "William Shakespeare",
-      nationality: "UK",
-      books: ["Hamlet", "Othello", "Romeo and Juliet", "MacBeth"]
-  },
-  {
-      name: "Charles Dickens",
-      nationality: "US",
-      books: ["Oliver Twist", "A Christmas Carol"]
-  },
-  {
-      name: "Oscar Wilde",
-      nationality: "UK",
-      books: ["The Picture of Dorian Gray", "The Importance of Being Earnest"]
-  },
-]
-
+const authors = require('./authors/authors.js')
 const express = require('express');
 const port = 8000;
 const app = express();
@@ -36,8 +13,8 @@ app.get('/', (req, res) => {
 
 app.get('/authors/:id', (req, res) => {
   let num = req.params.id;
-  let i = num - 1
-  res.send(`${authors[i].name}, ${authors[i].nationality}`)
+
+  res.send(`${authors[num - 1].name}, ${authors[num - 1].nationality}`)
 
 });
 
@@ -45,8 +22,7 @@ app.get('/authors/:id', (req, res) => {
 
 app.get('/authors/:id/books', (req, res) => {
   let num = req.params.id;
-  let i = num - 1
-  res.send(`${authors[i].books}`)
+  res.send(`${authors[num - 1].books.join(", ")}`)
 
 });
 
@@ -54,17 +30,15 @@ app.get('/authors/:id/books', (req, res) => {
 
 app.get('/json/authors/:id', (req, res) => {
   let num = req.params.id;
-  let name = authors[num].name
-  let nationality = authors[num].nationality
   res.json({
-    name: name,
-    nationality: nationality
+    name: authors[num - 1].name,
+    nationality: authors[num - 1].nationality
   });
 });
 
 app.get('/json/authors/:id/books', (req, res) => {
   let num = req.params.id;
-  let books = authors[num].books
+  let books = authors[num - 1].books
   res.json({
     books: books
   });
