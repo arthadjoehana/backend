@@ -37,20 +37,29 @@ app.use(function(req, res, next) {
 
 
 app.get('/heroes', (req, res) => {
-    res.send(superHeros)
+    const heroes = superHeroes.map(hero => {
+        return hero.name
+    })
+    res.json(heroes);
 });
 
-app.get('/heroes/:name', (req, res) => {
-    let params = req.params;
-    console.log(params);
-
-	res.json({
-		data: data,
-		message: `Vous avez demandé : ${params.name}`,
-	});
-  });
+app.get('/heros/:name', (req, res) => {
+    let param = req.params.name;
+    let heroName = superHeroes.filter(function(hero) {
+        return param === hero.name
+    })
+        res.json(heroName)
+})
 
 
+
+app.get('/heroes/:name/power', (req, res) => {
+    let params = req.params.power;
+    let heroPower = superHeroes.filter(function(hero) {
+        return param === hero.power
+    })
+        res.json(heroPower)
+});
 
 app.listen(PORT, () => {
     console.log(`Server started, listening on port ${PORT}`);
