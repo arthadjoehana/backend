@@ -3,4 +3,4 @@ var students = [
   ]
 
 
-module.exports = authors
+module.exports = students
