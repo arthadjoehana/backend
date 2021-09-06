@@ -37,28 +37,41 @@ app.use(function(req, res, next) {
 
 
 app.get('/heroes', (req, res) => {
-    const heroes = superHeroes.map(hero => {
-        return hero.name
-    })
-    res.json(heroes);
+    res.json({
+        status: "ok",
+        data: heroes,
+    });
 });
 
 app.get('/heros/:name', (req, res) => {
-    let param = req.params.name;
-    let heroName = superHeroes.filter(function(hero) {
-        return param === hero.name
+    const name = req.params.name
+    let hero = heroes.filter((obj) => obj.name.toLowerCase().replace(" ", "") === name.toLowerCase())
+    res.json({
+        status: "ok",
+        data: hero,
     })
-        res.json(heroName)
 })
 
 
 
 app.get('/heroes/:name/power', (req, res) => {
-    let params = req.params.power;
-    let heroPower = superHeroes.filter(function(hero) {
-        return param === hero.power
+    const name = req.params.name
+    let hero = heroes.filter((obj) => obj.name.toLowerCase().replace(" ", "") === name.toLowerCase())
+    res.json({
+        status: "ok",
+        power: hero.power,
     })
-        res.json(heroPower)
+})
+
+app.use(express.json)
+
+app.post('/heroes', (req, res) => {
+    const newHero = req.body
+    heroes.push(newHero)
+    res.json({
+        status: "hero added",
+        data: heroes,
+    });
 });
 
 app.listen(PORT, () => {

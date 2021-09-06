@@ -14,15 +14,24 @@ const students = [
     { name: "Kévin" },
 ];
 app.get('/students', (req, res) => {
-    res.send(students)
+    res.json({
+        status:"ok",
+        data: students,
+    })
 });
+
 app.post('/students', (req, res) => {
     console.log(req.body)
-    const userInfo = req.body;
-    console.log(userInfo);
-    students.push(userInfo)
-    res.json(students);
+    const newStudent = req.body;
+    students.push(newStudent)
+    console.log(newStudent);
+    res.json({
+        status:"ok",
+        message: "students added successfully",
+        data: students,
+    });
 })
+
 app.listen(PORT, () => {
     console.log(`Server started, listening on port ${PORT}`);
 });

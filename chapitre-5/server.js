@@ -1,9 +1,8 @@
 const express = require("express");
 const app = express();
 const PORT = 3000;
-
-import './hotels.json'
-import './restaurants.json'
+const hotels = require('./hotels.json')
+const restaurants = require('/restaurants.json')
 
 app.use(function(req, res, next) {
     console.log("Je fais un console.log à chaque requête", new Date().toDateString());
