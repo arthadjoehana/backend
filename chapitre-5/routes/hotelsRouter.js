@@ -16,9 +16,6 @@ router.get('/hotels/:id', (req, res) => {
     })
 });
 
-
-
-
 router.use(express.json)
 
 router.post('/hotels', (req, res) => {
@@ -29,7 +26,5 @@ router.post('/hotels', (req, res) => {
         data: hotels,
     });
 });
-
-
 
 module.exports = router;
