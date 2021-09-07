@@ -29,13 +29,76 @@ const superHeros = [
     }
 ]
 
+const dotenv = require("dotenv");
+dotenv.config({
+	path: "./config.env",
+});
+const mongoose = require("mongoose");
+
+app.use(express.json());
+
 app.use(function(req, res, next) {
     console.log("Je fais un console.log à chaque requête", new Date().toDateString());
     next(); 
 });
 
+mongoose
+	.connect(process.env.DB, {
+		useNewUrlParser: true,
+	})
+	.then(() => {
+		console.log("Connected to MongoDB !");
+	});
+
+const HeroSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: true,
+	},
+	price: Number,
+});
+
+const Hero = mongoose.model("Hero", HeroSchema);
+
+// Routes
+app.get("/hero", async (req, res) => {
+	const heroes = await Hero.find();
+	res.json({
+		message: "OK",
+		data: heroes,
+	});
+});
+
+app.get("/heroes/:name", async (req, res) => {
+	const name = await Hero.findById(req.params.name);
+    let hero = heroes.filter((obj) => obj.name.toLowerCase().replace(" ", "") === name.toLowerCase())
+	res.json({
+		message: "OK",
+		data: hero,
+	});
+});
+
+app.get('/heroes/:name/power', (req, res) => {
+    const name =  await Hero.findById(req.params.name)
+    let hero = heroes.filter((obj) => obj.name.toLowerCase().replace(" ", "") === name.toLowerCase())
+    res.json({
+        status: "ok",
+        power: hero.power,
+    })
+})
+
+app.post('/heroes', (req, res) => {
+    const newHero =  await Hero.findById(req.body)
+    heroes.push(newHero)
+    res.json({
+        status: "hero added",
+        data: heroes,
+    });
+});
 
 
+
+/*
 app.get('/heroes', (req, res) => {
     res.json({
         status: "ok",
@@ -73,6 +136,7 @@ app.post('/heroes', (req, res) => {
         data: heroes,
     });
 });
+*/
 
 app.listen(PORT, () => {
     console.log(`Server started, listening on port ${PORT}`);
