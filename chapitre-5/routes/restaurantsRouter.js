@@ -64,9 +64,9 @@ router.post('/restaurants', (req, res) => {
 
 router.patch('/restaurants', (req, res) => {
     
-    const restaurant = await Restaurant.findById(req.params.id)
+    const id = await Restaurant.findById(req.params.id)
     const name = await Restaurant.findById(req.params.name)
-    Restaurant.findByIdAndUpdate(id, { $set: { name: name } }, { new: true }).then(updatedRestaurant => {
+    Restaurant.findByIdAndUpdate(id, { $set: { name: name } }, { new: true }).then(updatedId => {
         res.json({
             status: "name updated",
             data: restaurant,

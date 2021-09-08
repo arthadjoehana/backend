@@ -64,9 +64,9 @@ router.post('/hotels', (req, res) => {
 
 router.patch('/hotels', (req, res) => {
     
-    const hotel = await Hotel.findById(req.params.id)
+    const id = await Hotel.findById(req.params.id)
     const name = await Hotel.findById(req.params.name)
-    Hotel.findByIdAndUpdate(id, { $set: { name: name } }, { new: true }).then(updatedHotel => {
+    Hotel.findByIdAndUpdate(id, { $set: { name: name } }, { new: true }).then(updatedId => {
         res.json({
             status: "name updated",
             data: hotel,
